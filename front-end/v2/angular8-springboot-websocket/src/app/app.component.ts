@@ -30,7 +30,7 @@ export class AppComponent {
     this.stompClient.connect({}, function (frame) {
       
         console.log('Connected: ' + frame);
-        this.stompClient.subscribe('/queue/chats-994910125479591936', function (message) {
+        this.stompClient.subscribe('/queue/chats-abu', function (message) {
            console.log(JSON.stringify(message.body))
         });
     });

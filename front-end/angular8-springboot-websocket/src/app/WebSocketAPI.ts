@@ -3,7 +3,7 @@ import * as SockJS from 'sockjs-client';
 import { AppComponent } from './app.component';
 
 export class WebSocketAPI {
-    webSocketEndPoint: string = 'http://localhost:8080/ws';
+    webSocketEndPoint: string = 'http://localhost:8080/catalog/ws-callback';
     topic: string = "/topic/greetings";
     stompClient: any;
     appComponent: AppComponent;
@@ -17,7 +17,9 @@ export class WebSocketAPI {
         const _this = this;
         _this.stompClient.connect({}, function (frame) {
             _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
-                _this.onMessageReceived(sdkEvent);
+                console.log("********* ****** ", JSON.stringify(sdkEvent))
+                let result:any =JSON.stringify(sdkEvent)
+                _this.onMessageReceived(result.body);
             });
             //_this.stompClient.reconnect_delay = 2000;
         }, this.errorCallBack);
@@ -49,6 +51,6 @@ export class WebSocketAPI {
 
     onMessageReceived(message) {
         console.log("Message Recieved from Server :: " + message);
-        this.appComponent.handleMessage(JSON.stringify(message.body));
+        this.appComponent.handleMessage(JSON.stringify(message));
     }
 }
